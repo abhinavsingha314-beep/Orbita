@@ -1,0 +1,473 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "Authenticated ORBITA AI user profile, plan tier, and account status.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "email": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 254
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 512
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "admin"]
+        },
+        "plan": {
+          "type": "string",
+          "enum": ["free", "pro", "business", "enterprise"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "suspended"]
+        },
+        "company": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "jobTitle": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "name", "email", "role", "plan", "status", "createdAt", "updatedAt"]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Server-verified administrator allowlist record.",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 254
+        },
+        "grantedBy": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["uid", "email", "grantedBy", "createdAt"]
+    },
+    "AgentConfig": {
+      "title": "AgentConfig",
+      "description": "Configuration and status for one of the core ORBITA AI agents.",
+      "type": "object",
+      "properties": {
+        "agentId": {
+          "type": "string",
+          "enum": ["sales", "marketing", "research", "finance", "support", "operations"]
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 500
+        },
+        "systemInstructions": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "maintenance", "disabled"]
+        },
+        "model": {
+          "type": "string",
+          "enum": ["gemini-4-hydrogen", "gemini-3.1-flash-lite"]
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["agentId", "name", "role", "description", "systemInstructions", "status", "model", "updatedAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Persistent multi-turn conversation session between a user and an AI agent.",
+      "type": "object",
+      "properties": {
+        "conversationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "agentId": {
+          "type": "string",
+          "enum": ["sales", "marketing", "research", "finance", "support", "operations"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "messageCount": {
+          "type": "integer"
+        },
+        "lastMessagePreview": {
+          "type": "string",
+          "maxLength": 240
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["conversationId", "userId", "agentId", "title", "archived", "messageCount", "lastMessagePreview", "createdAt", "updatedAt"]
+    },
+    "Message": {
+      "title": "Message",
+      "description": "Individual message turn inside a user conversation.",
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "conversationId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["user", "assistant"]
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32000
+        },
+        "inputTokens": {
+          "type": "integer"
+        },
+        "outputTokens": {
+          "type": "integer"
+        },
+        "model": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["messageId", "conversationId", "userId", "role", "content", "inputTokens", "outputTokens", "model", "createdAt"]
+    },
+    "SavedOutput": {
+      "title": "SavedOutput",
+      "description": "User-saved AI response deliverable for future reference.",
+      "type": "object",
+      "properties": {
+        "outputId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "agentId": {
+          "type": "string",
+          "enum": ["sales", "marketing", "research", "finance", "support", "operations"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "content": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 32000
+        },
+        "conversationId": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["outputId", "userId", "agentId", "title", "content", "createdAt", "updatedAt"]
+    },
+    "UsageRecord": {
+      "title": "UsageRecord",
+      "description": "Daily per-agent AI request and token usage tracking per user.",
+      "type": "object",
+      "properties": {
+        "usageId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "agentId": {
+          "type": "string",
+          "enum": ["sales", "marketing", "research", "finance", "support", "operations"]
+        },
+        "date": {
+          "type": "string",
+          "maxLength": 10,
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+        },
+        "month": {
+          "type": "string",
+          "maxLength": 7,
+          "pattern": "^[0-9]{4}-[0-9]{2}$"
+        },
+        "requestCount": {
+          "type": "integer"
+        },
+        "inputTokens": {
+          "type": "integer"
+        },
+        "outputTokens": {
+          "type": "integer"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["usageId", "userId", "agentId", "date", "month", "requestCount", "inputTokens", "outputTokens", "updatedAt"]
+    },
+    "PromptTemplate": {
+      "title": "PromptTemplate",
+      "description": "Reusable prompt template either public or user-authored.",
+      "type": "object",
+      "properties": {
+        "templateId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "isPublic": {
+          "type": "boolean"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["sales", "marketing", "research", "finance", "support", "operations"]
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 140
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300
+        },
+        "promptContent": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4000
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["templateId", "userId", "isPublic", "category", "title", "description", "promptContent", "createdAt", "updatedAt"]
+    },
+    "FavoritePrompt": {
+      "title": "FavoritePrompt",
+      "description": "User favorite mapping for a prompt template.",
+      "type": "object",
+      "properties": {
+        "favoriteId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "templateId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["favoriteId", "userId", "templateId", "createdAt"]
+    },
+    "FeedbackItem": {
+      "title": "FeedbackItem",
+      "description": "User-submitted product feedback and support reports.",
+      "type": "object",
+      "properties": {
+        "feedbackId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$"
+        },
+        "userEmail": {
+          "type": "string",
+          "maxLength": 254
+        },
+        "feedbackType": {
+          "type": "string",
+          "enum": ["bug", "feature", "agent_quality", "general"]
+        },
+        "subject": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 160
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 3000
+        },
+        "status": {
+          "type": "string",
+          "enum": ["open", "in_review", "resolved"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["feedbackId", "userId", "userEmail", "feedbackType", "subject", "message", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/UserProfile" },
+      "description": "Private user account profiles, plan tier, and account status."
+    },
+    "/admins/{userId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Trusted admin allowlist documents."
+    },
+    "/agents/{agentId}": {
+      "schema": { "$ref": "#/entities/AgentConfig" },
+      "description": "Core AI agent configuration overrides managed by administrators."
+    },
+    "/conversations/{conversationId}": {
+      "schema": { "$ref": "#/entities/Conversation" },
+      "description": "User-owned AI agent conversation headers."
+    },
+    "/conversations/{conversationId}/messages/{messageId}": {
+      "schema": { "$ref": "#/entities/Message" },
+      "description": "Ordered message turns belonging to a conversation."
+    },
+    "/savedOutputs/{outputId}": {
+      "schema": { "$ref": "#/entities/SavedOutput" },
+      "description": "User-owned saved AI responses and deliverables."
+    },
+    "/usage/{usageId}": {
+      "schema": { "$ref": "#/entities/UsageRecord" },
+      "description": "Per-user daily per-agent AI request and token counters."
+    },
+    "/promptTemplates/{templateId}": {
+      "schema": { "$ref": "#/entities/PromptTemplate" },
+      "description": "Public curated templates and private user custom prompt templates."
+    },
+    "/favoritePrompts/{favoriteId}": {
+      "schema": { "$ref": "#/entities/FavoritePrompt" },
+      "description": "User-specific favorite prompt mappings."
+    },
+    "/feedback/{feedbackId}": {
+      "schema": { "$ref": "#/entities/FeedbackItem" },
+      "description": "User feedback and admin review queue."
+    }
+  }
+}

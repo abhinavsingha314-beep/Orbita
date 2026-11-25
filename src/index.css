@@ -1,0 +1,183 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    background-color: #090B12;
+    color: #F7F8FC;
+    scroll-behavior: smooth;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Safe area support for mobile Android / iOS viewports */
+.pb-safe {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+/* Custom subtle scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090B12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252D40;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #36415C;
+}
+
+/* Markdown prose inside AI agent messages */
+.orbita-prose {
+  color: #F7F8FC;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  overflow-wrap: break-word;
+}
+
+.orbita-prose h1,
+.orbita-prose h2,
+.orbita-prose h3,
+.orbita-prose h4 {
+  font-family: var(--font-display);
+  color: #F7F8FC;
+  font-weight: 600;
+  margin-top: 1.25em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+}
+
+.orbita-prose h1 { font-size: 1.25rem; }
+.orbita-prose h2 { font-size: 1.125rem; }
+.orbita-prose h3 { font-size: 1rem; }
+
+.orbita-prose p {
+  margin-top: 0.6em;
+  margin-bottom: 0.6em;
+  color: #E3E7F2;
+}
+
+.orbita-prose p:first-child {
+  margin-top: 0;
+}
+
+.orbita-prose p:last-child {
+  margin-bottom: 0;
+}
+
+.orbita-prose ul,
+.orbita-prose ol {
+  margin-top: 0.5em;
+  margin-bottom: 0.75em;
+  padding-left: 1.4em;
+}
+
+.orbita-prose ul {
+  list-style-type: disc;
+}
+
+.orbita-prose ol {
+  list-style-type: decimal;
+}
+
+.orbita-prose li {
+  margin-top: 0.25em;
+  margin-bottom: 0.25em;
+  color: #E3E7F2;
+}
+
+.orbita-prose strong {
+  color: #F7F8FC;
+  font-weight: 600;
+}
+
+.orbita-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background-color: #090B12;
+  border: 1px solid #252D40;
+  border-radius: 4px;
+  padding: 0.125rem 0.375rem;
+  color: #93B0FF;
+}
+
+.orbita-prose pre {
+  margin: 0.85em 0;
+  padding: 0.875rem 1rem;
+  background-color: #090B12;
+  border: 1px solid #252D40;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+.orbita-prose pre code {
+  border: none;
+  padding: 0;
+  background: transparent;
+  color: #E3E7F2;
+}
+
+.orbita-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.85em 0;
+  display: block;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+.orbita-prose th,
+.orbita-prose td {
+  border: 1px solid #252D40;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.orbita-prose th {
+  background-color: #101522;
+  color: #F7F8FC;
+  font-weight: 600;
+}
+
+.orbita-prose blockquote {
+  margin: 0.75em 0;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid #252D40;
+  background-color: #101522;
+  border-radius: 0.5rem;
+  color: #9CA7BB;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

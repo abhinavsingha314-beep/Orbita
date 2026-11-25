@@ -1,0 +1,6 @@
+{
+  "name": "ORBITA AI",
+  "description": "Your AI Workforce. One Command Center. Manage specialized AI agents for sales, marketing, research, finance, support, and operations in one unified platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
